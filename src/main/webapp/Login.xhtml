@@ -2,7 +2,8 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core">
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
 <f:view>
 	<h:head>
 		<title>Aplicación JavaServer Faces</title>
@@ -22,23 +23,41 @@
 				<tr>
 					<td>Contraseña:</td>
 					<td>
-						<h:inputSecret id="pass" value="#{login.password}">
+						<h:inputSecret id="pass" redisplay="true" value="#{login.password}">
 							<f:validateLongRange minimum="1" maximum="500" />
+							<f:ajax execute="pass" render="mensajes"/>
 						</h:inputSecret>
 					</td>
 					<td><h:message for="pass" style="color:red" /></td>
 				</tr>
 				<tr>
+					<!-- 
 					<td>Fecha (dd/MM/yyyy):</td>
 					<td>
 						<h:inputText id="data" value="#{login.fecha}">
 							<f:convertDateTime pattern="dd/MM/yyyy"/>
 						</h:inputText>
 					</td>
+					<td><h:message for="data" style="color:red" /></td>
+					-->
+					<td>Fecha (con PrimeFaces):</td>
+					<td>
+						<p:calendar id="fecha" value="#{login.fecha}" navigator="true"
+							pattern="dd/MM/yyyy" showOn="button">
+							<p:ajax event="dateSelect" listener="#{login.onDateSelect}"
+								update="mensajes"></p:ajax>
+						</p:calendar>
+					</td>
 				</tr>
 			</table>
 			<p>
 				<h:commandButton value="Aceptar" action="#{login.comprobar}" />
+				<h:commandButton value="Pirata" immediate="true" action="error"
+					onclick="if (!confirm('¿Estás seguro?')) return false">
+				</h:commandButton>
+			</p>
+			<p>
+				<h:messages id="mensajes" style="color:blue"/>
 			</p>
 		</h:form>
 	</h:body>
