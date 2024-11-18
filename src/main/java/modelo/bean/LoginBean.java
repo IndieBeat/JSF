@@ -101,6 +101,13 @@ public class LoginBean implements Serializable {
 	public void listener(AjaxBehaviorEvent event) {
 		FacesContext.getCurrentInstance().addMessage(
 				null, new FacesMessage(
-						"El tipo del usuario:"+this.tipo.getCodigo()+"/"+this.tipo.getTipoUsu()));
+						"El tipo del usuario:"+tipo.getCodigo()+"/"+tipo.getTipoUsu()));
+	}
+	
+	public void onEventSelect(SelectEvent event) {
+		this.tipo=(TipoUsuario)event.getObject();
+		FacesContext.getCurrentInstance().addMessage(
+				"miForm:mensajes", new FacesMessage(
+						"El tipo del usuario (tabla):"+tipo.getCodigo()+"/"+tipo.getTipoUsu()));
 	}
 }

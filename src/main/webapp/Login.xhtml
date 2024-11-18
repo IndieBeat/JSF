@@ -9,7 +9,7 @@
 		<title>Aplicación JavaServer Faces</title>
 	</h:head>
 	<h:body>
-		<h:form>
+		<h:form id="miForm">
 			<h3>Por favor, introduce tu nombre y tu contraseña</h3>
 			<table>
 				<tr>
@@ -52,11 +52,41 @@
 				<tr>
 					<td><h3>Tipo de usuario: </h3></td>
 					<td>
-						<h:selectOneMenu value="#{login.tipo}" converter="omnifaces.SelectItemsConverter">
+						<h:selectOneMenu id="lista" value="#{login.tipo}" converter="omnifaces.SelectItemsConverter">
 							<f:selectItems value="#{login.tipos}"/>
 							<f:ajax event="change" listener="#{login.listener}" render="mensajes" />
 						</h:selectOneMenu>
 					</td>
+				</tr>
+				<tr>
+					<h:dataTable id="tabla" value="#{login.tipos}" var="item" border="1">
+						<f:facet name="header">Tipos de usuario:</f:facet>
+						<h:column>
+							<f:facet name="header"></f:facet>
+							<h:commandButton value="Escoger" action="#{login.setTipo(item)}"/>
+						</h:column>
+						<h:column>
+							<f:facet name="header">Código</f:facet>
+							#{item.codigo}
+						</h:column>
+						<h:column>
+							<f:facet name="header">Tipo</f:facet>
+							#{item.tipoUsu}
+						</h:column>
+					</h:dataTable>
+				</tr>
+				<tr>
+					<td>
+						<p:dataTable id="tablaPF" value="#{login.tipos}" var="item" selectionMode="single"
+						selection="#{login.tipo}" border="1" rowKey="#{item.codigo}">
+							<p:ajax event="rowSelect" listener="#{login.onEventSelect}"
+							update=":miForm:escogido :miForm:mensajes :miForm:lista"></p:ajax>
+							<f:facet name="header">Tipo de Usuario:</f:facet>
+							<p:column headerText="Código">#{item.codigo}</p:column>
+							<p:column headerText="Tipo">#{item.tipoUsu}</p:column>
+						</p:dataTable>
+					</td>
+					<td><h:outputText id="escogido" value="#{login.tipo}" style="color:red" /></td>
 				</tr>
 			</table>
 			<p>
