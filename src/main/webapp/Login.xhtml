@@ -49,6 +49,15 @@
 						</p:calendar>
 					</td>
 				</tr>
+				<tr>
+					<td><h3>Tipo de usuario: </h3></td>
+					<td>
+						<h:selectOneMenu value="#{login.tipo}" converter="omnifaces.SelectItemsConverter">
+							<f:selectItems value="#{login.tipos}"/>
+							<f:ajax event="change" listener="#{login.listener}" render="mensajes" />
+						</h:selectOneMenu>
+					</td>
+				</tr>
 			</table>
 			<p>
 				<h:commandButton value="Aceptar" action="#{login.comprobar}" />

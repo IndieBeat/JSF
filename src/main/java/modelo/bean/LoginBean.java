@@ -1,13 +1,17 @@
 package modelo.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.primefaces.event.SelectEvent;
 
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
+import jakarta.faces.component.behavior.AjaxBehavior;
 import jakarta.faces.context.FacesContext;
+import jakarta.faces.event.AjaxBehaviorEvent;
 import jakarta.inject.Named;
 
 @Named("login")
@@ -17,7 +21,15 @@ public class LoginBean implements Serializable {
 	private String nombre;
 	private String password;
 	private Date fecha;
+	private TipoUsuario tipo;
+	private static List<TipoUsuario> tipos=new ArrayList<TipoUsuario>();
 
+	public LoginBean() {
+		tipos.add(new TipoUsuario(1,"estudiante"));
+		tipos.add(new TipoUsuario(2,"profesor"));
+		this.tipo=tipos.get(0);
+	}
+	
 	public String getNombre() {
 		return nombre;
 	}
@@ -60,5 +72,35 @@ public class LoginBean implements Serializable {
 	public void onDateSelect(SelectEvent event) {
 		FacesContext.getCurrentInstance().addMessage(null,
 		new FacesMessage("Fecha escogida: "+event.getObject()));
+	}
+
+	public TipoUsuario getTipo() {
+		return tipo;
+	}
+
+	public void setTipo(TipoUsuario tipo) {
+		this.tipo = tipo;
+		System.out.println("El tipo del usuario:"+ this.tipo.getCodigo()+"/"+this.tipo.getTipoUsu());
+	}
+	
+	public List<TipoUsuario> getTipos(){
+		return tipos;
+	}
+	
+	public void setTipos(List <TipoUsuario> tipos) {
+		this.tipos=tipos;
+	}
+	
+	public static TipoUsuario getObject(String tipo) {
+		for(TipoUsuario t:tipos)
+			if(tipo.equals(t.getTipoUsu()))
+				return t;
+		return null;
+	}
+	
+	public void listener(AjaxBehaviorEvent event) {
+		FacesContext.getCurrentInstance().addMessage(
+				null, new FacesMessage(
+						"El tipo del usuario:"+this.tipo.getCodigo()+"/"+this.tipo.getTipoUsu()));
 	}
 }
