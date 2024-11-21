@@ -1,18 +1,22 @@
 package modelo.dominio;
 
 import java.util.Date;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 @Entity
 public class EventoLogin {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String descripcion;
 	private Date fecha;
+	@ManyToOne
+	private Usuario usuario;
+	private boolean login;
 
 	public EventoLogin() {
 	}
@@ -41,4 +45,27 @@ public class EventoLogin {
 		this.fecha = fecha;
 	}
 
+	public Usuario getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
+	}
+
+	public boolean isLogin() {
+		return login;
+	}
+
+	public void setLogin(boolean login) {
+		this.login = login;
+		if (login)
+			this.descripcion = usuario.getNombre() + " ha hecho login correctamente";
+		else
+			this.descripcion = usuario.getNombre() + " ha intentado hacer login";
+	}
+
+	public String toString() {
+		return id+"/"+descripcion+"/"+fecha+"/"+usuario+"/"+login;
+	}
 }
