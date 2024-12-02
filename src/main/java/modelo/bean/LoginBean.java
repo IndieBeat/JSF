@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.primefaces.event.SelectEvent;
 
+//import org.primefaces.event.SelectEvent;
+
 import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.application.FacesMessage;
 import jakarta.faces.component.behavior.AjaxBehavior;
@@ -65,8 +67,8 @@ public class LoginBean implements Serializable {
 		return fecha;
 	}
 
-	public void setFecha(Date fecha) {
-		this.fecha = fecha;
+	public void setFecha(Date date) {
+		this.fecha = date;
 	}
 	
 	public void onDateSelect(SelectEvent event) {
@@ -104,10 +106,10 @@ public class LoginBean implements Serializable {
 						"El tipo del usuario:"+tipo.getCodigo()+"/"+tipo.getTipoUsu()));
 	}
 	
-	public void onEventSelect(SelectEvent event) {
+	/*public void onEventSelect(SelectEvent event) {
 		this.tipo=(TipoUsuario)event.getObject();
 		FacesContext.getCurrentInstance().addMessage(
 				"miForm:mensajes", new FacesMessage(
 						"El tipo del usuario (tabla):"+tipo.getCodigo()+"/"+tipo.getTipoUsu()));
-	}
+	}*/
 }
